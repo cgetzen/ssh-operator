@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssh-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: ssh-operator
+  template:
+    metadata:
+      labels:
+        name: ssh-operator
+    spec:
+      serviceAccountName: ssh-operator
+      containers:
+        - name: ssh-operator
+          # Replace this with the built image name
+          image: REPLACE_IMAGE
+          ports:
+          - containerPort: 60000
+            name: metrics
+          command:
+          - ssh-operator
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              value: ""
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "ssh-operator"
