@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"ssh-operator/pkg/controller/sshjob"
+	"github.com/cgetzen/ssh-operator/pkg/controller/sshjob"
 )
 
 func init() {

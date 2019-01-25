@@ -1,8 +1,8 @@
 package main
 
 import (
-	"ssh-operator/pkg/apis"
-	"ssh-operator/pkg/controller"
+	"github.com/cgetzen/ssh-operator/pkg/apis"
+	"github.com/cgetzen/ssh-operator/pkg/controller"
 	"context"
 	"flag"
 	"fmt"
