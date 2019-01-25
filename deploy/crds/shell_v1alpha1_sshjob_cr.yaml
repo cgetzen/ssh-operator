@@ -1,0 +1,7 @@
+apiVersion: shell.example.com/v1alpha1
+kind: SSHJob
+metadata:
+  name: example-sshjob
+spec:
+  # Add fields here
+  size: 3

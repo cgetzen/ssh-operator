@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  init.sh: |
+    echo "\n\n\n" | ssh-keygen -t rsa -N "" > /dev/null
+    tmate -S /tmp/tmate.sock new-session -d 2> /dev/null
+    tmate -S /tmp/tmate.sock send-keys "kubectl exec -it $DEST_POD /bin/sh" ENTER
+    tmate -S /tmp/tmate.sock wait tmate-ready
+    kubectl annotate pod $(cat /etc/podinfo/name) ssh=$(tmate -S /tmp/tmate.sock display -p '#{tmate_web}')
+    kubectl annotate pod $DEST_POD ssh.out=$(tmate -S /tmp/tmate.sock display -p '#{tmate_web}')
+    sleep 9999999
+kind: ConfigMap
+metadata:
+  name: tmate-init
+  namespace: kubeapps

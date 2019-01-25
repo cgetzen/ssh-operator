@@ -1,0 +1,2 @@
+docker build . -t cgetzen/tmate-kubectl:1.13.2
+docker push cgetzen/tmate-kubectl:1.13.2

@@ -1,0 +1,24 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: <%= name %>-web
+  labels: &labels
+    app: tugboat
+    service: web
+    shipment: "<%= label %>"
+    creator: <%= creator %>
+    repository: tugboat
+spec:
+  template:
+    spec:
+      volumes:
+        - name: tugboat-certs
+          configMap:
+            name: tugboat-certs
+      containers:
+        - name: web
+          volumeMounts:
+            - name: tugboat-certs
+              readOnly: true
+              mountPath: /etc/secrets
+          image: quay.io/procoredevops/tugboat

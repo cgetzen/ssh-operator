@@ -1,8 +1,8 @@
 package main
 
 import (
-	"Users/charliegetzen/go/src/ssh-operator/pkg/apis"
-	"Users/charliegetzen/go/src/ssh-operator/pkg/controller"
+	"ssh-operator/pkg/apis"
+	"ssh-operator/pkg/controller"
 	"context"
 	"flag"
 	"fmt"
