@@ -251,6 +251,14 @@ func newPodForCR(cr *corev1.Pod) *corev1.Pod {
               MountPath: "/etc/podinfo",
             },
           },
+          LivenessProbe: &corev1.Probe{
+            Handler: corev1.Handler{
+              Exec: &corev1.ExecAction{
+                Command: []string{"tmate", "-S", "/tmp/tmate.sock", "wait", "tmate-ready"},
+              },
+            },
+            InitialDelaySeconds: 10,
+          },
           Env: []corev1.EnvVar{
             {
               Name: "DEST_POD",
