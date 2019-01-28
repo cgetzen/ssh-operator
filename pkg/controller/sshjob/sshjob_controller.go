@@ -184,7 +184,7 @@ func (r *ReconcileSSHJob) Reconcile(request reconcile.Request) (reconcile.Result
     } else if err != nil {
       return reconcile.Result{}, err
     }
-    reqLogger.Info("Deleting a Pod", "Pod.Namespace", pod.Namespace, "Pod.Name", pod.Name)
+    reqLogger.Info("Deleting a Pod", "Pod.Namespace", pod.Namespace, "Pod.Name", pod.Name, "Annotation", annotationIn)
     err = r.client.Delete(context.TODO(), pod)
     if err != nil {
       return reconcile.Result{}, err
@@ -201,12 +201,12 @@ func newPodForCR(cr *corev1.Pod) *corev1.Pod {
 
 	return &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "test-" + cr.Name + "-pod",
-			Namespace: cr.Namespace,
+			Name:      "tmate-" + cr.Name,//"test-" + cr.Name + "-pod",
+			Namespace: "tmate", // cr.Namespace,
 			Labels:    labels,
 		},
 		Spec: corev1.PodSpec{
-      ServiceAccountName: "kubeapps-internal-tiller-proxy",
+      ServiceAccountName: "ssh-operator",
       Volumes: []corev1.Volume{
         {
           Name: "config",
@@ -236,7 +236,7 @@ func newPodForCR(cr *corev1.Pod) *corev1.Pod {
       },
 			Containers: []corev1.Container{
 				{
-					Name:    "busybox",
+					Name:    "tmate-client",
 					Image:   "cgetzen/tmate-kubectl:1.13.2",
 					Command: []string{"sh", "/etc/tmate-init/init.sh"},
           VolumeMounts: []corev1.VolumeMount{
@@ -260,10 +260,10 @@ func newPodForCR(cr *corev1.Pod) *corev1.Pod {
             //   Name: "DEST_CONTAINER",
             //   Value: cr.Spec.Container,
             // },
-            // {
-            //   Name: "DEST_NAMESPACE",
-            //   Value: cr.Spec.Namespace,
-            // },
+            {
+              Name: "DEST_NAMESPACE",
+              Value: cr.Namespace,
+            },
           },
 				},
 			},
