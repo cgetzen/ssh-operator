@@ -4,9 +4,12 @@ ssh-operator allows you to ssh into a pod without `kubectl exec`.
 ["SSH is an anti-pattern."](https://twitter.com/bitfield/status/1062278396863041536)
 
 Yes, ssh-operator is no-good, gross, and very very bad. But sometimes, no-good, gross, and very very bad is exactly what you need.
-* When you're transitioning to kubernetes from VM's, and you don't want to train your dev team.
-* When your app isn't stateless but should be
-* When you just want to see the world burn
+
+Ssh-operator was created to decouple "transitioning to kubernetes" and "taking away shell access", and could be useful when:
+* You're transitioning to kubernetes from VM's, and you don't want to train your dev team.
+* You want to pair on a production system.
+* You just want to see the world burn.
+
 
 # Installation
 Currently, you have to clone the repo and
