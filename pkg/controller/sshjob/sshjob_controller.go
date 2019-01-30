@@ -254,7 +254,7 @@ func newPodForCR(cr *corev1.Pod) *corev1.Pod {
           LivenessProbe: &corev1.Probe{
             Handler: corev1.Handler{
               Exec: &corev1.ExecAction{
-                Command: []string{"tmate", "-S", "/tmp/tmate.sock", "wait", "tmate-ready"},
+                Command: []string{"/usr/bin/tmate", "-S", "/tmp/tmate.sock", "wait", "tmate-ready"},
               },
             },
             InitialDelaySeconds: 10,

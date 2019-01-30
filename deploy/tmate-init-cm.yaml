@@ -1,12 +1,13 @@
 apiVersion: v1
 data:
   init.sh: |
+    MESSAGE="Look's like you've left your host shell. Let's see if we can get you back to $DEST_POD."
     echo "\n\n\n" | ssh-keygen -t rsa -N "" > /dev/null
     tmate -S /tmp/tmate.sock new-session -d 2> /dev/null
-    tmate -S /tmp/tmate.sock send-keys "kubectl exec -n $DEST_NAMESPACE -it $DEST_POD /bin/sh" ENTER
+    tmate -S /tmp/tmate.sock send-keys "while :; do kubectl exec -n \$DEST_NAMESPACE -it \$DEST_POD /bin/sh && echo \"$MESSAGE\"; done" ENTER
     tmate -S /tmp/tmate.sock wait tmate-ready
-    kubectl annotate pod $(cat /etc/podinfo/name) ssh=$(tmate -S /tmp/tmate.sock display -p '#{tmate_web}')
-    kubectl annotate pod -n $DEST_NAMESPACE $DEST_POD ssh.out=$(tmate -S /tmp/tmate.sock display -p '#{tmate_web}')
+    kubectl annotate pod $(cat /etc/podinfo/name) ssh="$(tmate -S /tmp/tmate.sock display -p '#{tmate_web}')" --overwrite
+    kubectl annotate pod -n $DEST_NAMESPACE $DEST_POD ssh.out="$(tmate -S /tmp/tmate.sock display -p '#{tmate_web}')" --overwrite
     sleep 9999999
 kind: ConfigMap
 metadata:
