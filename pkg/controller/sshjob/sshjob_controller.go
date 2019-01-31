@@ -84,7 +84,6 @@ type ReconcileSSHJob struct {
 // Result.Requeue is true, otherwise upon completion it will remove the work from the queue.
 func (r *ReconcileSSHJob) Reconcile(request reconcile.Request) (reconcile.Result, error) {
 	reqLogger := log.WithValues("Request.Namespace", request.Namespace, "Request.Name", request.Name)
-	// reqLogger.Info("Reconciling SSHJob")
 
 	// Fetch the SSHJob instance
 	instance := &corev1.Pod{}
@@ -151,7 +150,6 @@ func (r *ReconcileSSHJob) Reconcile(request reconcile.Request) (reconcile.Result
     return reconcile.Result{}, nil
   }
   return reconcile.Result{}, nil
-
 }
 
 // newPodForCR returns a busybox pod with the same name/namespace as the cr
